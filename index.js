@@ -83,10 +83,15 @@ client.on('interactionCreate', async interaction => {
       embedColor = 0xCD7F32 // Bronze
     }
 
-    const crown =
-      rank === 1
-        ? '\n👑 meme corner CEO'
-        : ''
+  let crown = ''
+
+if (rank === 1) {
+  crown = '\n👑 congrats your the meme corner CEO'
+} else if (rank === 2) {
+  crown = '\n🔥 literally wpopoff'
+} else if (rank === 3) {
+  crown = '\n🥉 3 is better than 2'
+}
 
     const statsEmbed = new EmbedBuilder()
       .setColor(embedColor)
@@ -140,30 +145,42 @@ client.on('interactionCreate', async interaction => {
 
     let leaderboardText = ''
 
+
     for (let i = 0; i < sortedUsers.length; i++) {
 
-      const [userId, count] = sortedUsers[i]
+  const [userId, count] = sortedUsers[i]
 
-      try {
+  try {
 
-        const user =
-          await client.users.fetch(userId)
+    const user =
+      await client.users.fetch(userId)
 
-        const medal =
-          i === 0 ? '🥇' :
-          i === 1 ? '🥈' :
-          i === 2 ? '🥉' :
-          '📸'
+    const medal =
+      i === 0 ? '🥇' :
+      i === 1 ? '🥈' :
+      i === 2 ? '🥉' :
+      '📸'
 
-        leaderboardText +=
-          `${medal} **${user.username}** — ${count} approved submissions: your the official meme corner CEO\n`
+    let title = ''
 
-      } catch {
-
-        leaderboardText +=
-          `${i + 1}. Unknown User — ${count} approved submissions: literally wpopoff\n`
-      }
+    if (i === 0) {
+      title = '👑 congrats your the meme corner CEO'
+    } else if (i === 1) {
+      title = '🔥 literally wpopoff'
+    } else if (i === 2) {
+      title = '🥉 3 is better than 2'
     }
+
+    leaderboardText +=
+      `${medal} **${user.username}** — ${count} approved submissions\n${title}\n\n`
+
+  } catch {
+
+    leaderboardText +=
+      `${i + 1}. Unknown User — ${count} approved submissions\n\n`
+
+  }
+}  
 
     const leaderboardEmbed =
       new EmbedBuilder()
